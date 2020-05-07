@@ -15,12 +15,14 @@ var vm = new Vue({
       }
     },
     addWaititem: function(content) {
-      this.waitTasks.push({ id: Math.floor(Date.now()), text: this.newTask, controllModify: true });
+      var time =  Math.floor(Date.now());
+      this.waitTasks.push({ id: time, text: this.newTask, controllModify: true });
+      console.log("Push time:" + time);
       this.newTask = '';
     },
     // 顯示改為input模式
     waitModifyIcon: function(id) {
-      for(var n = 0; n < this.waitTasks.length ; n++ ){
+      for(let n = 0; n < this.waitTasks.length ; n++ ){
         if( this.waitTasks[n].id === id ) {
           console.log( "In edit: " + id ); // check
           this.waitTasks[n].controllModify = false;
@@ -31,7 +33,7 @@ var vm = new Vue({
     },
     // 修改後離開input模式
     closeEdit: function(id) {
-      for(var n = 0; n < this.waitTasks.length ; n++ ){
+      for(let n = 0; n < this.waitTasks.length ; n++ ){
         if( this.waitTasks[n].id === id ) {
           console.log( "Leave edit: " + id ); // check
           this.waitTasks[n].controllModify = true;
@@ -40,7 +42,7 @@ var vm = new Vue({
     },
     // 刪除
     waitTrashIcon: function(id) {
-      for(var n = 0; n < this.waitTasks.length ; n++ ){
+      for(let n = 0; n < this.waitTasks.length ; n++ ){
         if( this.waitTasks[n].id === id ) {
           console.log( "Delete wait: " + id ); // check
           this.waitTasks.splice(n,1);
@@ -49,22 +51,22 @@ var vm = new Vue({
     },
     // 完成task
     waitDoneIcon: function(id) {
-      for(var n = 0; n < this.waitTasks.length ; n++ ){
-        if( this.waitTasks[n].controllModify ) {
-          console.log( "Done wait: " + id ); // check
+      for( let n = 0 ; n < this.waitTasks.length ; n++ ){
+        if( this.waitTasks[n].controllModify && this.waitTasks[n].id == id) {
           this.addDoneTask(this.waitTasks[n]);
           this.waitTrashIcon(id);
+          break;
         }
       }
     },
     // 新增至donetask
-    addDoneTask: function(tempTask) {
+    addDoneTask: function( tempTask) {
       console.log(tempTask);
       this.doneTasks.push(tempTask);
     },
     // 移除已完成task
     doneTrashIcon: function(id) {
-      for(var n = 0; n < this.doneTasks.length ; n++ ){
+      for(let n = 0; n < this.doneTasks.length ; n++ ){
         if( this.doneTasks[n].id === id ) {
           console.log( "Delete done: " + id ); // check
           this.doneTasks.splice(n,1);
@@ -73,7 +75,7 @@ var vm = new Vue({
     },
     // 修改為待辦task
     doneUndoneIcon: function(id) {
-      for(var n = 0; n < this.doneTasks.length ; n++ ){
+      for(let n = 0; n < this.doneTasks.length ; n++ ){
         if( this.doneTasks[n].id === id ) {
           console.log( "Done to Undone: " + id ); // check
           this.waitTasks.push(this.doneTasks[n]);
