@@ -13,7 +13,8 @@
   <h1>TO-DO LIST</h1>
   <div id="todolist">
     <div class="add">
-      <input v-model="newTask" class="add__input" placeholder="請輸入待辦項目">
+      <input class="add__input" v-model="newTask"
+          @keyup.enter="add_icon" placeholder="請輸入待辦項目">
       <i @click="add_icon" class="fa fa-plus-circle fa-2x"></i>
     </div>
 
@@ -23,19 +24,21 @@
         <div class="wait__item__text">
           <input class="wait__item__text__input"
             v-if="!waitTask.controllModify"
-            v-model="waitTask.text"
-            @keyup.enter="closeEdit(waitTask.id)"
-          ><p v-else>{{ waitTask.text }}</p></input>
+            v-model="tempTask"
+            @keyup.enter="closeEdit(waitTask.id, true)"
+          ><p >{{ waitTask.text }}</p></input>
         </div>
         <div class="wait__item__icons">
           <div class="wait__item__icons__modify">
-            <i @click="waitModifyIcon(waitTask.id)" class="fa fa-pencil"></i>
+            <i @click="waitModifyIcon(waitTask.id)" v-if="waitTask.controllModify" class="fa fa-pencil"></i>
+            <i @click="closeEdit(waitTask.id, false)" v-else class="fa fa-undo"></i>
           </div>
           <div class="wait__item__icons__trash">
-            <i @click="waitTrashIcon(waitTask.id)" class="fa fa-trash-o"></i>
+            <i @click="waitTrashIcon(waitTask.id)" v-if="waitTask.controllModify" class="fa fa-trash-o"></i>
           </div>
           <div class="wait__item__icons__done">
-            <i @click="waitDoneIcon(waitTask.id)" class="fa fa-check-circle"></i>
+            <i @click="waitDoneIcon(waitTask.id)" v-if="waitTask.controllModify" class="fa fa-check-circle"></i>
+            <i @click="closeEdit(waitTask.id, true )" v-else class="fa fa-check-circle"></i>
           </div>
         </div>
       </div>

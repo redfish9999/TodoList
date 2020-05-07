@@ -1,9 +1,10 @@
 var vm = new Vue({
   el: '#todolist',
   data: {
-   newTask: '',
-   waitTasks: [],
-   doneTasks: []
+   newTask: '', // 新增Task
+   waitTasks: [], //待辦事項
+   tempTask: '', // 編輯暫存
+   doneTasks: [] // 完成事項
   },
   methods: {
     // 添加到頁面
@@ -12,30 +13,36 @@ var vm = new Vue({
         alert("尚未輸入項目");
       }else{
         vm.addWaititem(this.newTask);
+        this.newTask = '';
       }
     },
     addWaititem: function(content) {
       var time =  Math.floor(Date.now());
       this.waitTasks.push({ id: time, text: this.newTask, controllModify: true });
       console.log("Push time:" + time);
-      this.newTask = '';
     },
     // 顯示改為input模式
     waitModifyIcon: function(id) {
       for(let n = 0; n < this.waitTasks.length ; n++ ){
         if( this.waitTasks[n].id === id ) {
           console.log( "In edit: " + id ); // check
+          this.tempTask = this.waitTasks[n].text; // 同步input資料
           this.waitTasks[n].controllModify = false;
         }else{
           this.waitTasks[n].controllModify = true;
         }
       }
     },
-    // 修改後離開input模式
-    closeEdit: function(id) {
+    // 離開編輯模式
+    closeEdit: function(id, isComplete) {
       for(let n = 0; n < this.waitTasks.length ; n++ ){
-        if( this.waitTasks[n].id === id ) {
-          console.log( "Leave edit: " + id ); // check
+        if( this.waitTasks[n].id ) {
+          if( isComplete == true ) {  // 確認修改資料
+            console.log( "Succeeded edit: " + id ); // check
+            this.waitTasks[n].text = this.tempTask;
+          }
+          console.log( "Return edit: " + id ); // check
+          this.tempTask = '';
           this.waitTasks[n].controllModify = true;
         }
       }
@@ -52,7 +59,7 @@ var vm = new Vue({
     // 完成task
     waitDoneIcon: function(id) {
       for( let n = 0 ; n < this.waitTasks.length ; n++ ){
-        if( this.waitTasks[n].controllModify && this.waitTasks[n].id == id) {
+        if( this.waitTasks[n].controllModify && this.waitTasks[n].id === id) {
           this.addDoneTask(this.waitTasks[n]);
           this.waitTrashIcon(id);
           break;
