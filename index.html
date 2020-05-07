@@ -26,7 +26,7 @@
             v-if="!waitTask.controllModify"
             v-model="tempTask"
             @keyup.enter="closeEdit(waitTask.id, true)"
-          ><p >{{ waitTask.text }}</p></input>
+          ><p v-else>{{ waitTask.text }}</p></input>
         </div>
         <div class="wait__item__icons">
           <div class="wait__item__icons__modify">
