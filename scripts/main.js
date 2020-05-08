@@ -1,3 +1,8 @@
+Vue.component('hide-text', {
+  props: ['show'],
+  template: '<p>{{ show }}</p>'
+})
+
 var vm = new Vue({
   el: '#todolist',
   data: {
@@ -18,12 +23,12 @@ var vm = new Vue({
     addWaititem: function( content ) {
       var time =  Math.floor(Date.now());
       this.waitTasks.push({ id: time, text: this.newTask, controllModify: true });
-      console.log( "Push time:" + time );
+      console.log( "Add ID: " + time );
     }, //addWaititem()
     waitModifyIcon: function( id ) {
       for(let n = 0; n < this.waitTasks.length ; n++ ){
         if( this.waitTasks[n].id === id ) {
-          console.log( "In edit: " + id ); // check
+          console.log( "In Edit: " + id ); // check
           this.tempTask = this.waitTasks[n].text; // 同步input資料
           this.waitTasks[n].controllModify = false;
         }else{
@@ -39,7 +44,7 @@ var vm = new Vue({
         this.waitTasks[seat].text = this.tempTask;
       } // if
 
-      console.log( "Close edit." ); // check
+      console.log( "Close Edit." ); // check
       this.tempTask = '';
       this.waitTasks[seat].controllModify = true;
     }, // closeEdit() 離開編輯模式
@@ -73,9 +78,9 @@ var vm = new Vue({
   } // methods
 })
 
-function taskSeeking( id, task ) {
-  for(let n = 0; n < task.length ; n++ ){
-    if( task[n].id === id ) {
+function taskSeeking( id, tasks ) {
+  for(let n = 0; n < tasks.length ; n++ ){
+    if( tasks[n].id === id ) {
       console.log( "Seek the task: " + id ); // check
       return n;
     }
