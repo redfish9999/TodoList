@@ -36,8 +36,8 @@ var vm = new Vue({
     // 離開編輯模式
     closeEdit: function(id, isComplete) {
       for(let n = 0; n < this.waitTasks.length ; n++ ){
-        if( this.waitTasks[n].id ) {
-          if( isComplete == true ) {  // 確認修改資料
+        if( this.waitTasks[n].id === id ) {
+          if( isComplete ) {  // 確認修改資料
             console.log( "Succeeded edit: " + id ); // check
             this.waitTasks[n].text = this.tempTask;
           }
@@ -67,9 +67,9 @@ var vm = new Vue({
       }
     },
     // 新增至donetask
-    addDoneTask: function( tempTask) {
-      console.log(tempTask);
-      this.doneTasks.push(tempTask);
+    addDoneTask: function( task) {
+      console.log(task);
+      this.doneTasks.push(task);
     },
     // 移除已完成task
     doneTrashIcon: function(id) {
