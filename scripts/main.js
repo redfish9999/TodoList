@@ -1,8 +1,3 @@
-Vue.component('hide-text', {
-  props: ['show'],
-  template: '<p>{{ show }}</p>'
-})
-
 var vm = new Vue({
   el: '#todolist',
   data: {

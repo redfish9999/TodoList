@@ -20,13 +20,13 @@
 
     <div class="wait">
       <h3>待辦項目</h3>
-      <div class="wait__item" v-for="waitTask in waitTasks">
+      <div class="wait__item" v-for="waitTask in waitTasks" v-cloak>
         <div class="wait__item__text">
           <input class="wait__item__text__input"
                 v-if="!waitTask.controllModify"
                 v-model="tempTask"
                 @keyup.enter="closeEdit(waitTask.id, true)"
-          ><hide-text :show="waitTask.text" @click="waitModifyIcon(waitTask.id)" v-else></hide-text></input>
+          ><p v-else @click="waitModifyIcon(waitTask.id)" >{{ waitTask.text }}</hide-text></input>
         </div>
         <div class="wait__item__icons">
           <div class="wait__item__icons__modify">
@@ -46,8 +46,8 @@
 
     <div class="done">
       <h3>完成項目</h3>
-      <div class="done__item" v-for="doneTask in doneTasks">
-        <div class="done__item__text"><hide-text :show="doneTask.text"></hide-text></div>
+      <div class="done__item" v-for="doneTask in doneTasks" v-cloak>
+        <div class="done__item__text">{{ doneTask.text }}</div>
         <div class="done__item__icons">
           <div class="done__item__icons__trash">
             <i @click="doneTrashIcon(doneTask.id)" class="fa fa-trash-o"></i>
