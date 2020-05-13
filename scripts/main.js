@@ -16,9 +16,10 @@ var vm = new Vue({
       } // else
     }, //add_icon() 添加到頁面
     addWaititem: function( content ) {
-      var time =  Math.floor(Date.now());
-      this.waitTasks.push({ id: time, text: this.newTask, controllModify: true });
-      console.log( "Add ID: " + time );
+      let timeCode =  Math.floor(Date.now());
+      let timeNow = timeTranslate(timeCode);
+      this.waitTasks.push({ id: timeCode, text: this.newTask, controllModify: true, date:timeNow });
+      console.log( "Add ID: " + timeCode );
     }, //addWaititem()
     waitModifyIcon: function( id ) {
       for(let n = 0; n < this.waitTasks.length ; n++ ){
@@ -51,9 +52,15 @@ var vm = new Vue({
     }, // waitTrashIcon() 刪除
     waitDoneIcon: function( id ) {
       let seat = taskSeeking( id, this.waitTasks );
+      let seatDone;
+      let timeNow = timeTranslate( Date.now() );
 
       if( this.waitTasks[seat].controllModify ) {
         this.doneTasks.push( this.waitTasks[seat] );
+        seatDone = taskSeeking( id, this.doneTasks );
+        this.doneTasks[seatDone].date = timeNow;
+        console.log('Done time: ' + this.doneTasks[seatDone].date);
+
         this.waitTrashIcon( id );
       } // if
     }, // waitDoneIcon() 完成task
@@ -65,9 +72,14 @@ var vm = new Vue({
     },  // doneTrashIcon() 移除已完成task
     doneUndoneIcon: function( id ) {
       let seat = taskSeeking( id, this.doneTasks );
+      let seatwait;
+      let timeNow = timeTranslate( Date.now() );
 
       console.log( "Done to Undone: " + id ); // check
       this.waitTasks.push( this.doneTasks[seat] );
+      seatwait = taskSeeking( id, this.waitTasks );
+      this.waitTasks[seatwait].date = timeNow;
+
       this.doneTasks.splice( seat, 1 );
     },  // doneUndoneIcon() 修改為待辦task
   } // methods
@@ -84,3 +96,14 @@ function taskSeeking( id, tasks ) {
   console.log("Failed to seak " + id);
   return -1;
 } // taskSeeking() 尋找task array中等同id的task
+
+function timeTranslate( timeCode ) {
+  let time = new Date(timeCode);
+  let year = time.getFullYear().toString();
+  let momth = time.getMonth().toString();
+  let date = time.getDate().toString();
+  let hour = time.getHours().toString();
+  let min = time.getMinutes().toString();
+
+  return year + '/' + momth + '/' + date + ' ' + hour + ':' + min;
+} // timeTranslate() 回傳 年/月/日 時間

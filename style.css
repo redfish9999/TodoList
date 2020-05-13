@@ -44,7 +44,7 @@ h3{
   padding: 5px;
   margin-bottom: 16px;
 }
-.add__item,.wait__item,.done__item{
+.wait__item,.done__item{
   padding: 5px;
   margin-bottom: 10px;
   display: flex;
@@ -54,7 +54,7 @@ h3{
   border-radius: 5px;
 }
 .wait__item__text,.done__item__text{
-  width: 80%;
+  width: 70%;
   word-break: break-all;
   padding-left: 10px;
   font-size: 18px;
@@ -72,6 +72,9 @@ h3{
 }
 .wait__item__icons__modify,.wait__item__icons__trash,.wait__item__icons__done,.done__item__icons__trash,.done__item__icons__done{
   margin: 0 5px;
+}
+.wait__item__time,.done__item__time{
+  font-size: 10px;
 }
 i{
   display: block;
