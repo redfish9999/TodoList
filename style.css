@@ -67,14 +67,14 @@ h3{
   border: 2px solid #EDD29F;
   padding: 2px;
 }
+.wait__item__time,.done__item__time{
+  font-size: 12px;
+}
 .wait__item__icons,.done__item__icons{
   display: flex;
 }
 .wait__item__icons__modify,.wait__item__icons__trash,.wait__item__icons__done,.done__item__icons__trash,.done__item__icons__done{
   margin: 0 5px;
-}
-.wait__item__time,.done__item__time{
-  font-size: 10px;
 }
 i{
   display: block;

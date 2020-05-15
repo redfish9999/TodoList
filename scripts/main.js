@@ -6,6 +6,35 @@ var vm = new Vue({
    tempTask: '', // 編輯暫存
    doneTasks: [] // 完成事項
   },
+  created: function(){
+    console.log("Succeded to load Local Storage!");
+    if( localStorage.getItem("waitTasks") != null ){
+      console.log("LS is not empty");
+      this.waitTasks = JSON.parse(localStorage.getItem("waitTasks"));
+    }
+    if( localStorage.getItem("doneTasks") != null ){
+      console.log("LS is not empty");
+      this.doneTasks = JSON.parse(localStorage.getItem("doneTasks"));
+    }
+  }, // created
+  watch: {
+    waitTasks: {
+      handler: function (val) {
+        console.log("waitTasks Changed!");
+        let storageTranslate = JSON.stringify( val );  // 將waitTasks轉為string
+        localStorage.setItem( "waitTasks", storageTranslate ); // 將變數存到localStorage裡
+      },
+      deep: true
+    },
+    doneTasks: {
+      handler: function (val) {
+        console.log("doneTasks Changed!");
+        let storageTranslate = JSON.stringify( val );  // 將waitTasks轉為string
+        localStorage.setItem( "doneTasks", storageTranslate ); // 將變數存到localStorage裡
+      },
+      deep: true
+    }
+  }, // watch
   methods: {
     add_icon: function() {
       if( this.newTask == '' ){
@@ -17,7 +46,8 @@ var vm = new Vue({
     }, //add_icon() 添加到頁面
     addWaititem: function( content ) {
       let timeCode =  Math.floor(Date.now());
-      let timeNow = timeTranslate(timeCode);
+      let timeNow = timeTranslate( timeCode );
+
       this.waitTasks.push({ id: timeCode, text: this.newTask, controllModify: true, date:timeNow });
       console.log( "Add ID: " + timeCode );
     }, //addWaititem()
@@ -82,6 +112,16 @@ var vm = new Vue({
 
       this.doneTasks.splice( seat, 1 );
     },  // doneUndoneIcon() 修改為待辦task
+    showStorage: function() {
+      var newWaitTask = localStorage.getItem("waitTasks");
+      newWaitTask = JSON.parse(newWaitTask); //轉為JSON
+      console.log("In Storage: ", newWaitTask); // 列印出原先物件
+    },
+    clearStorage: function() {
+      this.waitTasks = [];
+      this.doneTasks = [];
+      localStorage.clear();
+    },
   } // methods
 })
 
